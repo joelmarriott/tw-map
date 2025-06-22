@@ -11,6 +11,8 @@ def new_map(villages, map_type='SCORE', scale=1, continent=None,
     json_obj = json.loads(json_string)
     with open('dump.json', 'w') as f:
         f.write(json.dumps(json_obj, indent=2))
+    #
+    generate_map(map)
     # Meat of map generation here
     #genImage():                                # Just a funky image gen test
 
