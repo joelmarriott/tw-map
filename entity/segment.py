@@ -1,8 +1,8 @@
 class Segment():
-    def __init__(self, coords, villages):
+    def __init__(self, coords):
         self.coords = coords
-        self.villages = villages
-
+        self.villages = []
+        
     @property
     def x(self):
         return self.coords[0]
