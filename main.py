@@ -1,21 +1,18 @@
 from PIL import Image
+from entity.map import Map
+import json
+import jsonpickle
 
 def new_map(villages, map_type='SCORE', scale=1, continent=None,
          tribes=None, players=None, conquers=False):
+    map = Map([], map_type, scale, continent, tribes, players, conquers)
+    map.map_villages(villages)
+    json_string = jsonpickle.encode(map)
+    json_obj = json.loads(json_string)
+    with open('dump.json', 'w') as f:
+        f.write(json.dumps(json_obj, indent=2))
     # Meat of map generation here
-    print(deriveContinentName(305, 405))       # Test - ends up as K43
-    print(deriveSegmentCoords(307, 407))       # Test - ends up as (305, 405)
-    genImage():                                # Just a funky image gen test
-
-def deriveContinentName(x, y):
-    return 'K'+str(y)[:1]+str(x)[:1]
-
-def deriveSegmentCoords(x, y):
-    while x % 5 != 0:
-        x -= 1
-    while y % 5 != 0:
-        y -= 1
-    return x, y
+    #genImage():                                # Just a funky image gen test
 
 def genImage():
     img = Image.new('RGB', [500,500], 255)

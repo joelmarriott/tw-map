@@ -14,6 +14,21 @@ class Village():
     @property
     def y(self):
         return self.coords[1]
+    
+    def derive_continent_name(self, x, y):
+        return 'K'+str(y)[:1]+str(x)[:1]
+
+    def derive_segment_coords(self, x, y):
+        while x % 5 != 0:
+            x -= 1
+        while y % 5 != 0:
+            y -= 1
+        return x, y
+    
+    def derive_continent_coords(self, x, y):
+        x = int(str(x)[:1]) * 100
+        y = int(str(y)[:1]) * 100
+        return x, y
 
     def __repr__(self):
         string = f"Village(coords={self.coords}, type='{self.type}'"

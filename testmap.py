@@ -44,7 +44,7 @@ def main():
 def generateTestCoords():
     coords = []
     generated_villages = 0
-    while generated_villages < 200:
+    while generated_villages < 1000:
         generated_coords = (randint(430, 570), randint(430, 570))
         print('Fake coords = '+str(generated_coords))
         if generated_coords not in coords:
