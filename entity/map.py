@@ -10,6 +10,7 @@ class Map:
         self.tribes = tribes
         self.players = players
         self.conquers = conquers
+        self.map_start = (999, 999)
 
     def map_villages(self, villages):
         for village in villages:
@@ -19,6 +20,12 @@ class Map:
                 k_coords = village.derive_continent_coords(village.x, village.y)
                 self.continents.append(Continent(k_name, k_coords))
                 v_continent = self.get_continent(k_name)
+                if k_coords[0] < self.map_start[0]:
+                    self.map_start = (k_coords[0], self.map_start[1])
+                #
+                if k_coords[1] < self.map_start[1]:
+                    self.map_start = (self.map_start[0], k_coords[1])
+                #
             #
             s_coords = village.derive_segment_coords(village.x, village.y)
             for segment in v_continent.segments:
