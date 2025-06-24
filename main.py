@@ -45,10 +45,16 @@ def generate_map(map):
     
     print(width)
     
-    k_border_total = 0
-    s_border_total = 0
+    k_border_x_total = 0
+    k_border_y_total = 0
+    s_border_x_total = 0
+    s_border_y_total = 0
+    
+    k_x_start_previous = 0
+    k_y_start_previous = 0
     
     for k_name in k_names:
+        print(f'Working on continent {k_name}')
         continent = None
         for m_continent in map.continents:
             if k_name == m_continent.name:
@@ -56,17 +62,36 @@ def generate_map(map):
             #
         if not continent:
             print('Cannot find continent')
+        #
+        if k_x_start_previous == 0 or k_y_start_previous:
+            k_x_start_previous = continent.coords[0]
+            k_y_start_previous = continent.coords[1]
+        #
+        if continent.coords[0] != k_x_start_previous:
+            k_border_x_total = 0
+        #
+        if continent.coords[1] != k_y_start_previous:
+            k_border_y_total = 0
+        #
             
-        x_start = (continent.coords[0] - map.map_start[0]) * 2 * map.scale + k_border_total
-        x_end = ((continent.coords[0] - map.map_start[0]) + 99 * 2 * map.scale) + k_border_width + k_border_total
+        x_start = (continent.coords[0] - map.map_start[0]) * 2 * map.scale + k_border_x_total
+        x_end = (((continent.coords[0] - map.map_start[0]) + 100) * 2 * map.scale) + k_border_width + k_border_x_total
         
-        y_start = (continent.coords[1] - map.map_start[1]) * 2 * map.scale
-        y_end = ((continent.coords[1] - map.map_start[1]) + 99 * 2 * map.scale) + k_border_width
+        y_start = (continent.coords[1] - map.map_start[1]) * 2 * map.scale + k_border_y_total
+        y_end = (((continent.coords[1] - map.map_start[1]) + 100) * 2 * map.scale) + k_border_width + k_border_y_total
 
-        k_border_total += k_border_width
-
+        if continent.coords[0] != k_x_start_previous:
+            k_border_y_total += k_border_width
+            k_x_start_previous = continent.coords[0]
+        #
+        if continent.coords[1] != k_y_start_previous:
+            k_border_x_total += k_border_width
+            k_y_start_previous = continent.coords[1]
+        #
+        
+        print(f'x_start={x_start}, x_end={x_end}, y_start={y_start}, y_end={y_end}')
+                
         for x in range(x_start, x_end):
-            print(y_end)
             data[x, y_end - 1] = k_border_colour
             data[x, y_end] = k_border_colour
         #
